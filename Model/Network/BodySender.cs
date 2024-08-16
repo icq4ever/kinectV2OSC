@@ -71,16 +71,18 @@ namespace KinectV2OSC.Model.Network
 
         private void Send(Body body, int kID)
         {
+            message = messageBuilder.BuildIDMessage(kID, body);
+            this.Broadcast(message);
             foreach (var joint in body.Joints)
             {
-                message = messageBuilder.BuildJointMessage(kID, body, joint);
+                message = messageBuilder.BuildJointMessage(body, joint);
                 this.Broadcast(message);
             }
 
-            message = messageBuilder.BuildHandMessage(kID, body, "Left", body.HandLeftState, body.HandLeftConfidence);
+            message = messageBuilder.BuildHandMessage( body, "Left", body.HandLeftState, body.HandLeftConfidence);
             this.Broadcast(message);
 
-            message = messageBuilder.BuildHandMessage(kID, body, "Right", body.HandRightState, body.HandRightConfidence);
+            message = messageBuilder.BuildHandMessage(body, "Right", body.HandRightState, body.HandRightConfidence);
             this.Broadcast(message);
         }
 
