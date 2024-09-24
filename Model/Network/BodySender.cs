@@ -73,6 +73,11 @@ namespace KinectV2OSC.Model.Network
         {
             message = messageBuilder.BuildIDMessage(kID, body);
             this.Broadcast(message);
+
+            // send jointMessage;
+            message = messageBuilder.rootJointMessage(body);
+            this.Broadcast(message); 
+
             foreach (var joint in body.Joints)
             {
                 message = messageBuilder.BuildJointMessage(body, joint);
