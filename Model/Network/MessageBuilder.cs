@@ -20,8 +20,9 @@ namespace KinectV2OSC.Model.Network
         {
             var address = String.Format("/bodies/{0}/joints/{1}", body.TrackingId, joint.Key);
             var position = joint.Value.Position;
-            //System.Diagnostics.Debug.WriteLine(address);
-            return new OscMessage(address, joint.Value.TrackingState.ToString());
+            Int32 Key = (Int32)joint.Key;
+            // System.Diagnostics.Debug.WriteLine(address);
+            return new OscMessage(address,Key, (Int32)joint.Value.TrackingState);
         }
 
         public OscMessage buildRootJointMessage(Body body)
@@ -34,10 +35,11 @@ namespace KinectV2OSC.Model.Network
 
         public OscMessage buildOrientMessage(Body body, KeyValuePair<JointType, JointOrientation> joint)
         {
-            var address = String.Format("/bodies/{0}/joints/{1}", body.TrackingId, joint.Key);
+            var address = String.Format("/bodies/{0}/jointorient/{1}", body.TrackingId, joint.Key);
             var orientation = joint.Value.Orientation;
-            //System.Diagnostics.Debug.WriteLine(address);
-            return new OscMessage(address, orientation.X, orientation.Y, orientation.Z);
+            Int32 Key = (Int32)joint.Key;
+            System.Diagnostics.Debug.WriteLine(address);
+            return new OscMessage(address, Key,orientation.X, orientation.Y, orientation.Z,orientation.W);
         }
 
         public OscMessage BuildHandMessage(Body body, string key, HandState state, TrackingConfidence confidence)
